@@ -26,8 +26,7 @@ function assertion<T extends (...args: any[]) => void>(
 }
 
 export function error(message: string) {
-  const err = new Error(`Hope this helps:\n\n${message}`);
-  err.name = "Friendly Type Route Error Here 😁";
+  const err = new Error(message);
   return err;
 }
 
@@ -310,7 +309,10 @@ function assertRouteFn(
       parameters[key] === "path.param.number" ||
       parameters[key] === "path.param.string" ||
       parameters[key] === "query.param.number" ||
-      parameters[key] === "query.param.string"
+      parameters[key] === "query.param.string" ||
+      parameters[key] === "query.param.boolean" ||
+      parameters[key] === "query.param.array.string" ||
+      parameters[key] === "query.param.array.number"
     ) {
       throw error(`Missing required field \`${key}\` in params object`);
     }
@@ -336,8 +338,14 @@ function isParameterDefinitionCollection(arg: any) {
       value === "path.param.string" ||
       value === "query.param.number" ||
       value === "query.param.number.optional" ||
+      value === "query.param.boolean" ||
+      value === "query.param.boolean.optional" ||
       value == "query.param.string" ||
-      value === "query.param.string.optional"
+      value === "query.param.string.optional" ||
+      value === "query.param.array.number" ||
+      value === "query.param.array.number.optional" ||
+      value == "query.param.array.string" ||
+      value === "query.param.array.string.optional"
     ) {
       continue;
     }

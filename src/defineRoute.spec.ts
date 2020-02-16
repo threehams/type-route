@@ -232,6 +232,48 @@ describe("defineRoute.getMatch", () => {
     });
   });
 
+  it("should match route with boolean query params", () => {
+    const routeDefinition = getRouteDefinition(
+      {
+        a: "path.param.string",
+        b: "query.param.boolean"
+      },
+      p => `/something/${p.a}/hello`
+    );
+
+    const match = routeDefinition.match({
+      pathName: "/something/hi/hello",
+      queryString: "b=true"
+    });
+
+    expect(match).toEqual({
+      a: "hi",
+      b: true
+    });
+  });
+
+  it("should match route with array query params", () => {
+    const routeDefinition = getRouteDefinition(
+      {
+        a: "path.param.string",
+        b: "query.param.array.string",
+        c: "query.param.array.number"
+      },
+      p => `/something/${p.a}/hello`
+    );
+
+    const match = routeDefinition.match({
+      pathName: "/something/hi/hello",
+      queryString: "b[]=text&c[]=1234&c[]=5678"
+    });
+
+    expect(match).toEqual({
+      a: "hi",
+      b: ["text"],
+      c: [1234, 5678]
+    });
+  });
+
   it("should match query params with type mismatch", () => {
     const routeDefinition = getRouteDefinition(
       {
@@ -264,6 +306,27 @@ describe("defineRoute.getMatch", () => {
     });
 
     expect(match).toBe(false);
+  });
+
+  it("should allow omission of optional query params", () => {
+    const routeDefinition = getRouteDefinition(
+      {
+        a: "path.param.string",
+        b: "query.param.string",
+        c: "query.param.string.optional"
+      },
+      p => `/something/${p.a}/hello`
+    );
+
+    const match = routeDefinition.match({
+      pathName: "/something/hi/hello",
+      queryString: "b=hello"
+    });
+
+    expect(match).toEqual({
+      a: "hi",
+      b: "hello"
+    });
   });
 
   it("should allow omission of optional query params", () => {

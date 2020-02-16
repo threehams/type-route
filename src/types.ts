@@ -1,11 +1,17 @@
 import { MemoryHistory, History } from "history";
 
-export type QueryParamString = "query.param.string";
-export type QueryParamNumber = "query.param.number";
 export type PathParamString = "path.param.string";
 export type PathParamNumber = "path.param.number";
+export type QueryParamString = "query.param.string";
+export type QueryParamNumber = "query.param.number";
+export type QueryParamBoolean = "query.param.boolean";
+export type QueryParamArrayString = "query.param.array.string";
+export type QueryParamArrayNumber = "query.param.array.number";
 export type QueryParamStringOptional = "query.param.string.optional";
 export type QueryParamNumberOptional = "query.param.number.optional";
+export type QueryParamBooleanOptional = "query.param.boolean.optional";
+export type QueryParamArrayStringOptional = "query.param.array.string.optional";
+export type QueryParamArrayNumberOptional = "query.param.array.number.optional";
 
 export type KeysMatching<T, V> = {
   [K in keyof T]: T[K] extends V ? K : never;
@@ -24,19 +30,31 @@ export type ParsedPathParameterCollection = {
 };
 
 export type ParameterDefinition =
-  | QueryParamString
-  | QueryParamNumber
   | PathParamString
   | PathParamNumber
+  | QueryParamString
+  | QueryParamNumber
+  | QueryParamBoolean
+  | QueryParamArrayString
+  | QueryParamArrayNumber
   | QueryParamStringOptional
-  | QueryParamNumberOptional;
+  | QueryParamNumberOptional
+  | QueryParamBooleanOptional
+  | QueryParamArrayStringOptional
+  | QueryParamArrayNumberOptional;
 
 export type QueryParameterDefinitionCollection = {
   [parameterName: string]:
     | QueryParamNumber
     | QueryParamString
+    | QueryParamBoolean
+    | QueryParamArrayNumber
+    | QueryParamArrayString
     | QueryParamNumberOptional
-    | QueryParamStringOptional;
+    | QueryParamStringOptional
+    | QueryParamBooleanOptional
+    | QueryParamArrayNumberOptional
+    | QueryParamArrayStringOptional;
 };
 
 export type ParameterDefinitionCollection = {
@@ -66,8 +84,14 @@ export type RouteParameters<T> = Record<
   string
 > &
   Record<KeysMatching<T, QueryParamNumber | PathParamNumber>, number> &
+  Record<KeysMatching<T, QueryParamBoolean>, boolean> &
+  Record<KeysMatching<T, QueryParamArrayNumber>, number[]> &
+  Record<KeysMatching<T, QueryParamArrayString>, string[]> &
   Partial<Record<KeysMatching<T, QueryParamStringOptional>, string>> &
-  Partial<Record<KeysMatching<T, QueryParamNumberOptional>, number>>;
+  Partial<Record<KeysMatching<T, QueryParamNumberOptional>, number>> &
+  Partial<Record<KeysMatching<T, QueryParamBooleanOptional>, boolean>> &
+  Partial<Record<KeysMatching<T, QueryParamArrayStringOptional>, string[]>> &
+  Partial<Record<KeysMatching<T, QueryParamArrayNumberOptional>, number[]>>;
 
 type RouteParameterFunction<T, R> = KeysMatching<
   T,

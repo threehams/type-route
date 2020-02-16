@@ -8,7 +8,7 @@ import {
   RouteParameters,
   ClickEvent
 } from "./types";
-import qs from "querystringify";
+import qs from "./queryString";
 import { getPathMatch } from "./getPathMatch";
 import { getQueryMatch } from "./getQueryMatch";
 import { getParsedPath } from "./getParsedPath";
@@ -95,10 +95,7 @@ export function buildRouteDefinition(
       }
     });
 
-    return (
-      builder.path(pathParams) +
-      qs.stringify(queryParams, Object.keys(queryParams).length > 0)
-    );
+    return builder.path(pathParams) + qs.stringify(queryParams);
   }
 
   function match({
@@ -140,7 +137,13 @@ function getQueryParameters(parameters: ParameterDefinitionCollection) {
       kind === "query.param.number" ||
       kind === "query.param.number.optional" ||
       kind === "query.param.string" ||
-      kind === "query.param.string.optional"
+      kind === "query.param.string.optional" ||
+      kind === "query.param.boolean" ||
+      kind === "query.param.boolean.optional" ||
+      kind === "query.param.array.number" ||
+      kind === "query.param.array.number.optional" ||
+      kind === "query.param.array.string" ||
+      kind === "query.param.array.string.optional"
     ) {
       queryParameters[name] = kind;
     }

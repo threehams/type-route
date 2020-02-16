@@ -1,3 +1,7 @@
-export function isNumeric(value: string) {
-  return !isNaN(parseFloat(value)) && /\-?\d*\.?\d*/.test(value);
+export function isNumeric(value: string | string[]): value is string {
+  return (
+    !Array.isArray(value) &&
+    !isNaN(parseFloat(value)) &&
+    /\-?\d*\.?\d*/.test(value)
+  );
 }

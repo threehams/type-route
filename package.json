@@ -22,8 +22,8 @@
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "@types/querystringify": "^2.0.0",
-    "@types/react": "16.8.8",
-    "@types/react-dom": "16.8.2",
+    "@types/react": "16.9.19",
+    "@types/react-dom": "16.9.5",
     "jest": "^24.5.0",
     "parcel-bundler": "^1.12.4",
     "react": "^16.8.4",

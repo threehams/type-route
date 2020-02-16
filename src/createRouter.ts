@@ -186,8 +186,8 @@ export function createRouter(...args: any[]) {
     _: string,
     callback: (proceed: boolean) => void
   ) {
-    const navigationResolverId = (nextLocation.state || {})
-      .navigationResolverId;
+    const state = nextLocation.state as { navigationResolverId: number };
+    const navigationResolverId = state.navigationResolverId;
     const result = await handleNavigation(nextLocation, nextAction);
 
     const resolve = navigationResolvers[navigationResolverId];
